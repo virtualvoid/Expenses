@@ -91,7 +91,7 @@ namespace Expenses.Web.Controllers
         }
         else
         {
-          if (ControllerExtensions.IsLocalUrl(returnUrl))
+          if (Url.IsLocalUrl(returnUrl))
           {
             return Redirect(returnUrl);
           }

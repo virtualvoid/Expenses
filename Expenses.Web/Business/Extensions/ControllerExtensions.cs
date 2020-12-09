@@ -7,22 +7,6 @@ namespace Expenses.Web.Business.Extensions
 {
   public static class ControllerExtensions
   {
-    // https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/preventing-open-redirection-attacks
-    public static bool IsLocalUrl(string url)
-    {
-      if (string.IsNullOrEmpty(url))
-      {
-        return false;
-      }
-      else
-      {
-        return ((url[0] == '/' && (url.Length == 1 ||
-                (url[1] != '/' && url[1] != '\\'))) ||   // "/" or "/foo" but not "//" or "/\"
-                (url.Length > 1 &&
-                 url[0] == '~' && url[1] == '/'));   // "~/" or "~/foo"
-      }
-    }
-
     public static string GetReturnUrl(this Controller controller)
     {
       if (controller == null)
