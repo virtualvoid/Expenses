@@ -1,0 +1,48 @@
+﻿@model RegistrationViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="rego-form">
+    <form method="post">
+        <h2 class="text-center">Registration</h2>
+        <div class="form-group">
+            @Html.TextBoxFor(it => it.UserName, new { @class = "form-control", placeholder = "User name" })
+            @Html.ValidationMessageFor(it => it.UserName)
+        </div>
+        <div class="form-group">
+            @Html.PasswordFor(it => it.Password, new { @class = "form-control", placeholder = "Password" })
+            @Html.ValidationMessageFor(it => it.Password)
+        </div>
+        <div class="form-group">
+            @Html.PasswordFor(it => it.PasswordAgain, new { @class = "form-control", placeholder = "Password" })
+            @Html.ValidationMessageFor(it => it.PasswordAgain)
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(it => it.FirstName, new { @class = "form-control", placeholder = "First name" })
+            @Html.ValidationMessageFor(it => it.FirstName)
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(it => it.LastName, new { @class = "form-control", placeholder = "Last name" })
+            @Html.ValidationMessageFor(it => it.LastName)
+        </div>
+        @if (ViewContext.ModelState.ContainsKey(string.Empty))
+        {
+            <div class="form-group">
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(true)
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </div>
+        <div class="clearfix">
+            <a asp-area="" asp-controller="User" asp-action="Login" class="float-right">Login</a>
+        </div>
+    </form>
+</div>
+
+
+@section Styles {
+    <link href="~/css/Registration.css" rel="stylesheet" />
+}

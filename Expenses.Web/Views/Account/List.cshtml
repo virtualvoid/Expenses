@@ -1,0 +1,46 @@
+﻿@model List<AccountViewModel>
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="accounts-list">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Created</th>
+                        <th>Name</th>
+                        <th>IBAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-area="" asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            </td>
+                            <td>
+                                @item.Created.ToString("dd.MM.yyyy HH:mm:ss")
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.IBAN
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <a class="btn btn-light" asp-area="" asp-controller="Account" asp-action="Edit">Create new</a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/Categories.css" rel="stylesheet" />
+}

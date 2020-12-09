@@ -1,0 +1,25 @@
+﻿.rego-form {
+    width: 480px;
+    margin: 50px auto;
+    font-size: 15px;
+}
+
+    .rego-form form {
+        margin-bottom: 15px;
+        padding: 30px;
+    }
+
+    .rego-form h2 {
+        margin: 0 0 15px;
+    }
+
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+
+.btn {
+    font-size: 15px;
+    font-weight: bold;
+}
+

@@ -1,0 +1,99 @@
+﻿@model List<TransactionViewModel>
+@{
+    ViewData["Title"] = "Transactions";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive-md">
+            <div class="transaction-list">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Account</th>
+                            <th>Created</th>
+                            <th>Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-area="" asp-controller="Transaction" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                </td>
+                                <td>
+                                    @{
+                                        var type = Enum.Parse<Expenses.Web.Business.Data.TransactionType>(item.Type);
+                                        switch (type)
+                                        {
+                                            @*case Expenses.Web.Business.Data.TransactionType.Credit:
+                                                <text>+</text>
+                                                break;*@
+
+                                            case Expenses.Web.Business.Data.TransactionType.Debet:
+                                                <text>-</text>
+                                                break;
+                                        }
+                                    }
+
+                                    @if (item.Pending)
+                                    {
+                                        <font color="red">@Math.Round(item.Amount, 2)</font>
+                                    }
+                                    else
+                                    {
+                                        <span>@Math.Round(item.Amount, 2)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @item.Category.Name
+                                </td>
+                                <td>
+                                    @item.Account.Name
+                                </td>
+                                <td>
+                                    @item.Created.ToString("dd.MM.yyyy HH:mm:ss")
+                                </td>
+                                <td>
+                                    @(item.Modified.HasValue ? item.Modified.Value.ToString("dd.MM.yyyy HH:mm:ss") : "-")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <nav aria-label="" class="mt-2">
+            <ul class="pagination pagination-sm justify-content-center">
+                @for (var pageIndex = 0; pageIndex < ViewBag.Pages; pageIndex++)
+                {
+                    if (pageIndex + 1 == ViewBag.Index)
+                    {
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">
+                                @(pageIndex + 1)
+                                <span class="sr-only">(current)</span>
+                            </span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("List", "Transaction", new { page = pageIndex })">
+                                @(pageIndex + 1)
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+        <a class="btn btn-light" asp-area="" asp-controller="Transaction" asp-action="Edit">Add</a>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/Transactions.css" rel="stylesheet" />
+}

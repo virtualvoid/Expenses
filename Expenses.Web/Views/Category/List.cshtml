@@ -1,0 +1,42 @@
+﻿@model List<CategoryViewModel>
+@{
+    ViewData["Title"] = "Categories";
+}
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="categories-list">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-area="" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <a class="btn btn-light" asp-area="" asp-controller="Category" asp-action="Edit">Create new</a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/Categories.css" rel="stylesheet" />
+}

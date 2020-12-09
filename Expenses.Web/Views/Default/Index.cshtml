@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <a asp-area=""
+                   asp-controller="Transaction"
+                   asp-action="Edit"
+                   asp-route-returnUrl="@Url.Action("Index", "Default")"
+                   class="btn btn-primary">Add Transaction</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Overview by category</h5>
+                    <p class="card-text">Overal flow of credits and debets from all accounts.</p>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Credit</th>
+                                <th>Debet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var credits = 0m;
+                                var creditsWithoutPending = 0m;
+                                var debets = 0m;
+                                var debetsWithoutPending = 0m;
+                            }
+
+                            @foreach (var key in ViewBag.OverviewByCategory.Keys)
+                            {
+                                var item = ViewBag.OverviewByCategory[key] as Expenses.Web.Business.Mediator.Default.Overview;
+
+                                credits += item.Credit;
+                                creditsWithoutPending += item.CreditWithoutPending;
+                                debets += item.Debet;
+                                debetsWithoutPending += item.DebetWithoutPending;
+
+                                <tr>
+                                    <td>@key</td>
+                                    <td>@Math.Round(item.Credit, 2)</td>
+                                    <td>@Math.Round(item.Debet, 2)</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <strong>Sum</strong>
+                                </td>
+                                <td>@Math.Round(credits, 2)</td>
+                                <td>@Math.Round(debets, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Sum without pendings</strong>
+                                </td>
+                                <td>@Math.Round(creditsWithoutPending, 2)</td>
+                                <td>@Math.Round(debetsWithoutPending, 2)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <strong>Balance</strong>
+                                </td>
+                                <td>
+                                    @Math.Round(credits - debets, 2)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <strong>Balance without pendings</strong>
+                                </td>
+                                <td>
+                                    @Math.Round(creditsWithoutPending - debetsWithoutPending, 2)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
