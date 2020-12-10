@@ -21,7 +21,7 @@ namespace Expenses.Web.Business.Extensions
         return it.Key.Equals(str, StringComparison.InvariantCultureIgnoreCase);
       });
 
-      if (returnUrl.IsNullOrDefault())
+      if (returnUrl.IsNullOrDefault() && controller.Request.HasFormContentType)
       {
         returnUrl = controller.Request.Form.FirstOrDefault(it =>
         {
