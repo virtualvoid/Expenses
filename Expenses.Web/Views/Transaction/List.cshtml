@@ -120,7 +120,7 @@
         $(document).ready(function () {
             $('#categoryId').on('change', function (ev) {
                 var value = $(this).val();
-                var url = '@Url.ActionLink("List", "Transaction", new { page = 0 })&categoryId=' + (value == '' ? 'null' : value);
+                var url = '/Transaction/List?page=0&categoryId=' + (value == '' ? 'null' : value);
                 window.location.href = url;
             });
         });
