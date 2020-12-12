@@ -4,7 +4,30 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <div class="table-responsive-md">
+        <div>
+            @{
+                var categories = ViewBag.Categories as List<CategoryViewModel>;
+            }
+            @if (categories != null && categories.Any())
+            {
+                <select id="categoryId" name="categoryId" class="form-control">
+                    <option value="">(all)</option>
+                    @foreach (var category in categories)
+                    {
+                        var selected = $"{category.Id}" == ViewBag.CategoryId;
+                        @if (selected)
+                        {
+                            <option value="@category.Id" selected>@category.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    }
+                </select>
+            }
+        </div>
+        <div class="table-responsive-md mt-3">
             <div class="transaction-list">
                 <table class="table table-condensed table-striped">
                     <thead>
@@ -64,7 +87,7 @@
             <ul class="pagination pagination-sm justify-content-center">
                 @for (var pageIndex = 0; pageIndex < ViewBag.Pages; pageIndex++)
                 {
-                    if (pageIndex + 1 == ViewBag.Index)
+                    if (pageIndex == ViewBag.Index)
                     {
                         <li class="page-item active" aria-current="page">
                             <span class="page-link">
@@ -90,4 +113,16 @@
 
 @section Styles {
     <link href="~/css/Transactions.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#categoryId').on('change', function (ev) {
+                var value = $(this).val();
+                var url = '@Url.ActionLink("List", "Transaction", new { page = 0 })&categoryId=' + (value == '' ? 'null' : value);
+                window.location.href = url;
+            });
+        });
+    </script>
 }

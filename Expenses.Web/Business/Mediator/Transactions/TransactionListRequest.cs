@@ -7,9 +7,11 @@ namespace Expenses.Web.Business.Mediator.Transactions
   {
     public Guid UserId { get; set; }
 
-    public int PageSize { get; set; } = 25;
+    public int PageSize { get; set; } = 10;
 
     public int Page { get; set; } = 0;
+
+    public Guid? CategoryId { get; set; }
 
     public TransactionListRequest(Guid userId)
     {

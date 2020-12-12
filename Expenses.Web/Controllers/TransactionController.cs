@@ -28,16 +28,27 @@ namespace Expenses.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> List(int page = 0, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> List(int page = 0, Guid? categoryId = null, CancellationToken cancellationToken = default)
     {
       var userId = this.GetUserId();
-      var model = await mediator.Send(new TransactionListRequest(userId) { Page = page }, cancellationToken);
 
-      ViewBag.Count = model.Count;
-      ViewBag.Pages = model.Pages;
-      ViewBag.Index = model.Index;
+      var categories = await mediator.Send(new CategoryListRequest(userId), cancellationToken);
+      ViewBag.Categories = categories;
+      ViewBag.CategoryId = categoryId.HasValue ? $"{categoryId.Value}" : string.Empty;
 
-      return View(model.Data);
+      var transactions = await mediator.Send(
+        new TransactionListRequest(userId)
+        {
+          Page = page,
+          CategoryId = categoryId
+        },
+      cancellationToken);
+
+      ViewBag.Count = transactions.Count;
+      ViewBag.Pages = transactions.Pages;
+      ViewBag.Index = transactions.Index;
+
+      return View(transactions.Data);
     }
 
     [HttpGet]
