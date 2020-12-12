@@ -27,21 +27,15 @@
                                 <td>
                                     @{
                                         var type = Enum.Parse<Expenses.Web.Business.Data.TransactionType>(item.Type);
-                                        switch (type)
+                                        if (type == Expenses.Web.Business.Data.TransactionType.Debet)
                                         {
-                                            @*case Expenses.Web.Business.Data.TransactionType.Credit:
-                                                <text>+</text>
-                                                break;*@
-
-                                            case Expenses.Web.Business.Data.TransactionType.Debet:
-                                                <text>-</text>
-                                                break;
+                                            <text>-</text>
                                         }
                                     }
 
                                     @if (item.Pending)
                                     {
-                                        <font color="red">@Math.Round(item.Amount, 2)</font>
+                                        <span class="text-red">@Math.Round(item.Amount, 2)</span>
                                     }
                                     else
                                     {

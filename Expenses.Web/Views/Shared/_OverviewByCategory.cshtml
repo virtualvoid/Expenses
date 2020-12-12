@@ -1,0 +1,93 @@
+﻿@model Dictionary<string, Expenses.Web.Business.Mediator.Default.Overview>
+
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Credit</th>
+            <th>Debet</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var credits = 0m;
+            var creditsWithoutPending = 0m;
+            var debets = 0m;
+            var debetsWithoutPending = 0m;
+        }
+
+        @foreach (var key in Model.Keys)
+        {
+            var item = Model[key];
+
+            credits += item.Credit;
+            creditsWithoutPending += item.CreditWithoutPending;
+            debets += item.Debet;
+            debetsWithoutPending += item.DebetWithoutPending;
+
+            <tr>
+
+                <td>
+                    @{
+                        var keyClass = string.Empty;
+                    }
+
+                    @if (!item.ContainsPendingCredit && !item.ContainsPendingDebet)
+                    {
+                        keyClass = string.Empty;
+                    }
+                    else
+                    {
+                        if (item.ContainsPendingCredit)
+                        {
+                            keyClass = "text-green";
+                        }
+                        else if (item.ContainsPendingDebet)
+                        {
+                            keyClass = "text-red";
+                        }
+                        else
+                        {
+                            keyClass = "text-orange";
+                        }
+                    }
+
+                    <span class="@keyClass">@key</span>
+                </td>
+
+                <td>@Math.Round(item.Credit, 2)</td>
+                <td>@Math.Round(item.Debet, 2)</td>
+            </tr>
+        }
+        <tr>
+            <td>
+                <strong>Sum</strong>
+            </td>
+            <td>@Math.Round(credits, 2)</td>
+            <td>@Math.Round(debets, 2)</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Sum without pendings</strong>
+            </td>
+            <td>@Math.Round(creditsWithoutPending, 2)</td>
+            <td>@Math.Round(debetsWithoutPending, 2)</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <strong>Balance</strong>
+            </td>
+            <td>
+                @Math.Round(credits - debets, 2)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <strong>Balance without pendings</strong>
+            </td>
+            <td>
+                @Math.Round(creditsWithoutPending - debetsWithoutPending, 2)
+            </td>
+        </tr>
+    </tbody>
+</table>

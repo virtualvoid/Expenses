@@ -9,23 +9,28 @@ namespace Expenses.Web.Business.Extensions
   {
     public static string GetReturnUrl(this Controller controller)
     {
+      const string key = "ReturnUrl";
+
+      return GetRequestValue(controller, key);
+    }
+
+    public static string GetRequestValue(this Controller controller, string key)
+    {
       if (controller == null)
       {
         throw new ArgumentNullException(nameof(controller));
       }
 
-      const string str = "ReturnUrl";
-
       var returnUrl = controller.Request.Query.FirstOrDefault(it =>
       {
-        return it.Key.Equals(str, StringComparison.InvariantCultureIgnoreCase);
+        return it.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase);
       });
 
       if (returnUrl.IsNullOrDefault() && controller.Request.HasFormContentType)
       {
         returnUrl = controller.Request.Form.FirstOrDefault(it =>
         {
-          return it.Key.Equals(str, StringComparison.InvariantCultureIgnoreCase);
+          return it.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase);
         });
       }
 

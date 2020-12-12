@@ -54,8 +54,11 @@ namespace Expenses.Web.Controllers
 
       if (model == null)
       {
+        var type = this.GetRequestValue("type");
+
         model = new TransactionViewModel
         {
+          Type = type
         };
       }
 

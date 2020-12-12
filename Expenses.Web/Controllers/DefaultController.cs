@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +28,13 @@ namespace Expenses.Web.Controllers
       var userId = this.GetUserId();
 
       var overviewByCategory = await mediator.Send(new OverviewByCategoryRequest(userId), cancellationToken);
-      ViewBag.OverviewByCategory = overviewByCategory;
+
+      ViewData["overviewByCategory"] = overviewByCategory;
+
+      ViewData["maxExpensiveCategory"] = overviewByCategory
+        .OrderByDescending(it => it.Value.Debet)
+        .FirstOrDefault();
+
 
       return View();
     }

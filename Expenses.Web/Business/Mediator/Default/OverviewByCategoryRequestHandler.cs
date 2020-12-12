@@ -48,11 +48,20 @@ namespace Expenses.Web.Business.Mediator.Default
           Debet = it.Debets.Sum(it => it.Amount),
 
           CreditWithoutPending = it.Credits.Where(it => !it.Pending).Sum(it => it.Amount),
-          DebetWithoutPending = it.Debets.Where(it => !it.Pending).Sum(it => it.Amount)
+          DebetWithoutPending = it.Debets.Where(it => !it.Pending).Sum(it => it.Amount),
+
+          ContainsPendingCredit = it.Credits.Any(it => it.Pending),
+          ContainsPendingDebet = it.Debets.Any(it => it.Pending)
         })
         .ToDictionary(
           k => k.Category,
-          v => new Overview(v.Credit, v.CreditWithoutPending, v.Debet, v.DebetWithoutPending)
+          v => new Overview(v.Credit, v.Debet)
+          {
+            CreditWithoutPending = v.CreditWithoutPending,
+            ContainsPendingCredit = v.ContainsPendingCredit,
+            DebetWithoutPending = v.DebetWithoutPending,
+            ContainsPendingDebet = v.ContainsPendingDebet
+          }
         );
 
       return dictionary;

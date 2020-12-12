@@ -79,3 +79,15 @@ body {
 .validation-summary-valid {
     display: none;
 }
+
+.text-green {
+    color: #008800;
+}
+
+.text-red {
+    color: #dd0000;
+}
+
+.text-orange {
+    color: orange;
+}
