@@ -28,13 +28,13 @@ namespace Expenses.Web.Controllers
       var userId = this.GetUserId();
 
       var overviewByCategory = await mediator.Send(new OverviewByCategoryRequest(userId), cancellationToken);
-
       ViewData["overviewByCategory"] = overviewByCategory;
-
       ViewData["maxExpensiveCategory"] = overviewByCategory
         .OrderByDescending(it => it.Value.Debet)
         .FirstOrDefault();
 
+      var graphData = await mediator.Send(ChartRequest.Last30Days(userId), cancellationToken);
+      ViewData["lastThirtyDays"] = graphData;
 
       return View();
     }
