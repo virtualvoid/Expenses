@@ -20,7 +20,9 @@
                     {
                         <tr>
                             <td>
-                                <a asp-area="" asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a asp-area="" asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                </a>
                             </td>
                             <td>
                                 @item.Created.ToString("dd.MM.yyyy HH:mm:ss")
@@ -36,7 +38,9 @@
                 </tbody>
             </table>
             <br />
-            <a class="btn btn-light" asp-area="" asp-controller="Account" asp-action="Edit">Create new</a>
+            <a class="btn btn-light" asp-area="" asp-controller="Account" asp-action="Edit">
+                <i class="fa fa-plus"></i> Add
+            </a>
         </div>
     </div>
 </div>

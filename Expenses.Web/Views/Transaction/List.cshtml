@@ -40,17 +40,22 @@
                             <th>#</th>
                             <th>Amount</th>
                             <th>Category</th>
-                            <th>Account</th>
+                            <th class="d-none d-lg-table-cell">Account</th>
                             <th>Created</th>
-                            <th>Modified</th>
+                            <th class="d-none d-lg-table-cell">Modified</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            var now = DateTime.UtcNow;
+                        }
                         @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
-                                    <a asp-area="" asp-controller="Transaction" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a asp-area="" asp-controller="Transaction" asp-action="Edit" asp-route-id="@item.Id" class="">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </a>
                                 </td>
                                 <td>
                                     @{
@@ -73,14 +78,27 @@
                                 <td>
                                     @item.Category.Name
                                 </td>
-                                <td>
+                                <td class="d-none d-lg-table-cell">
                                     @item.Account.Name
                                 </td>
                                 <td>
-                                    @item.Created.ToString("dd.MM.yyyy HH:mm:ss")
+                                    @{
+                                        var fmt = string.Empty;
+
+                                        if (now - item.Created <= TimeSpan.FromDays(2))
+                                        {
+                                            fmt = "dd.MM.yyyy HH:mm:ss";
+                                        }
+                                        else
+                                        {
+                                            fmt = "dd.MM.yyyy";
+                                        }
+
+                                        @item.Created.ToString(fmt);
+                                    }
                                 </td>
-                                <td>
-                                    @(item.Modified.HasValue ? item.Modified.Value.ToString("dd.MM.yyyy HH:mm:ss") : "-")
+                                <td class="d-none d-lg-table-cell">
+                                    @(item.Modified.HasValue ? item.Modified.Value.ToString(fmt) : "-")
                                 </td>
                             </tr>
                         }
@@ -112,7 +130,9 @@
                 }
             </ul>
         </nav>
-        <a class="btn btn-light" asp-area="" asp-controller="Transaction" asp-action="Edit">Add</a>
+        <a class="btn btn-light" asp-area="" asp-controller="Transaction" asp-action="Edit">
+            <i class="fa fa-plus"></i> Add
+        </a>
     </div>
 </div>
 
