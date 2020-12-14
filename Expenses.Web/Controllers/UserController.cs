@@ -113,7 +113,7 @@ namespace Expenses.Web.Controllers
           var claimsPrinciple = new ClaimsPrincipal(claimsIdentity);
           var properties = new AuthenticationProperties
           {
-            ExpiresUtc = DateTime.UtcNow.AddHours(2)
+            ExpiresUtc = DateTime.UtcNow.AddHours(12)
           };
 
           await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrinciple, properties);
