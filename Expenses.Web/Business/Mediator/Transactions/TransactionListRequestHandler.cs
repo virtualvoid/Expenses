@@ -36,8 +36,12 @@ namespace Expenses.Web.Business.Mediator.Transactions
 
       if (request.CategoryId.HasValue)
       {
-        query = query
-          .Where(it => it.CategoryId == request.CategoryId.Value);
+        query = query.Where(it => it.CategoryId == request.CategoryId.Value);
+      }
+
+      if (request.Pending.HasValue && request.Pending.Value)
+      {
+        query = query.Where(it => it.Pending);
       }
 
       var count = await query.CountAsync(cancellationToken);

@@ -13,6 +13,8 @@ namespace Expenses.Web.Business.Mediator.Transactions
 
     public Guid? CategoryId { get; set; }
 
+    public bool? Pending { get; set; }
+
     public TransactionListRequest(Guid userId)
     {
       UserId = userId;

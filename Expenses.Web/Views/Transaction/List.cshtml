@@ -27,6 +27,11 @@
                 </select>
             }
         </div>
+        <div class="form-group form-check mt-3">
+            <label class="form-check-label">
+                <input id="pending" name="pending" type="checkbox" class="form-check-input" @(ViewBag.Pending ? "checked" : "") /> Pending
+            </label>
+        </div>
         <div class="table-responsive-md mt-3">
             <div class="transaction-list">
                 <table class="table table-condensed table-striped">
@@ -118,10 +123,17 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#categoryId').on('change', function (ev) {
+            var $categoryId = $('#categoryId');
+            var $pending = $('#pending');
+
+            $categoryId.on('change', function (ev) {
                 var value = $(this).val();
-                var url = '/Transaction/List?page=0&categoryId=' + (value == '' ? 'null' : value);
+                var url = '/Transaction/List?page=0&categoryId=' + (value == '' ? 'null' : value) + '&pending=' + $pending.is(':checked');
                 window.location.href = url;
+            });
+
+            $pending.on('change', function (ev) {
+                $categoryId.trigger('change');
             });
         });
     </script>

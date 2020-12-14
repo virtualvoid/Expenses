@@ -28,7 +28,7 @@ namespace Expenses.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> List(int page = 0, Guid? categoryId = null, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> List(int page = 0, Guid? categoryId = null, bool? pending = null, CancellationToken cancellationToken = default)
     {
       var userId = this.GetUserId();
 
@@ -36,11 +36,14 @@ namespace Expenses.Web.Controllers
       ViewBag.Categories = categories;
       ViewBag.CategoryId = categoryId.HasValue ? $"{categoryId.Value}" : string.Empty;
 
+      ViewBag.Pending = pending.HasValue && pending.Value;
+
       var transactions = await mediator.Send(
         new TransactionListRequest(userId)
         {
           Page = page,
-          CategoryId = categoryId
+          CategoryId = categoryId,
+          Pending = pending
         },
       cancellationToken);
 
