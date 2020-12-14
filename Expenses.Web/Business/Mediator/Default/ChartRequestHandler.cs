@@ -31,6 +31,8 @@ namespace Expenses.Web.Business.Mediator.Default
         .OrderBy(it => it.Created)
         .ToListAsync(cancellationToken);
 
+      // TODO: this is not correct, rewrite
+
       var items = list
         .GroupBy(it => it.Created.Date)
         .Select(it => new ChartResponseItem
