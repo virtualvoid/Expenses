@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace Expenses.Web.Business.Mediator.Default
         throw new ArgumentNullException(nameof(request));
       }
 
+      var items = new List<ChartResponseItem>();
+
       var list = await context.TransactionSet
         .Include(it => it.Category)
         .Where(it => it.UserId == request.UserId)
@@ -31,17 +34,23 @@ namespace Expenses.Web.Business.Mediator.Default
         .OrderBy(it => it.Created)
         .ToListAsync(cancellationToken);
 
-      // TODO: this is not correct, rewrite
+      // TODO: maybe cleanup this mess
+      if (list.Any())
+      {
+        var group = list.GroupBy(it => it.Created.Date)
+          .ToDictionary(
+            k => k.Key,
+            v => v.Select(t => t.Type == TransactionType.Credit ? t.Amount : -t.Amount).Sum()
+          );
 
-      var items = list
-        .GroupBy(it => it.Created.Date)
-        .Select(it => new ChartResponseItem
+        var keys = group.Keys.ToArray();
+        items.Add(new ChartResponseItem(keys[0], group[keys[0]]));
+        for (var i = 1; i < keys.Length; i++)
         {
-          Date = it.Key,
-          Value = it.Select(t => t.Type == TransactionType.Credit ? t.Amount : -t.Amount).Sum()
-        })
-        .ToArray();
-
+          var key = keys[i];
+          items.Add(new ChartResponseItem(key, items[i - 1].Value + group[key]));
+        }
+      }
       return new ChartResponse
       {
         Items = items

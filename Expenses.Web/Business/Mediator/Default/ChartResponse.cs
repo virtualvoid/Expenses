@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Expenses.Web.Business.Mediator.Default
 {
   public class ChartResponse
   {
-    public ChartResponseItem[] Items { get; set; }
+    public List<ChartResponseItem> Items { get; set; }
   }
 
   public class ChartResponseItem
@@ -12,5 +13,11 @@ namespace Expenses.Web.Business.Mediator.Default
     public DateTime Date { get; set; }
 
     public decimal Value { get; set; }
+
+    public ChartResponseItem(DateTime date, decimal value)
+    {
+      Date = date;
+      Value = value;
+    }
   }
 }

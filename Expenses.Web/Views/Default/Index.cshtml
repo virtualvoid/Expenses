@@ -83,12 +83,12 @@
             {
                 <text>
             labels.push('@item.Date.ToString("dd.MM.yyyy")');
-            data.push(@Math.Round(item.Value, 2));
+            data.push(@Math.Round(item.Value, 2).ToString(System.Globalization.CultureInfo.InvariantCulture));
             </text>
             }
 
             var context = document.getElementById('chart').getContext('2d');
-            var chart = new Chart(context, {
+            new Chart(context, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -100,37 +100,7 @@
                     ]
                 },
                 options: {
-                    responsive: true,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Last 30 days Line Chart'
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                        },
-                        hover: {
-                            mode: 'nearest',
-                            intersect: true
-                        },
-                        scales: {
-                            x: {
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Month'
-                                }
-                            },
-                            y: {
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Value'
-                                }
-                            }
-                        }
-                    }
+                    responsive: true
                 }
             });
         });
