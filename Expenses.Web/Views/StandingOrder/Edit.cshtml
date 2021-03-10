@@ -1,0 +1,82 @@
+﻿@model Expenses.Web.ViewModels.StandingOrderViewModel
+
+@{
+    ViewData["Title"] = "Edit Standing order";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            @Html.HiddenFor(it => it.Id)
+            @Html.Hidden("ReturnUrl", ViewBag.ReturnUrl as string)
+            <div class="form-group">
+                <label asp-for="AccountId" class="control-label">Account</label>
+                <select asp-for="AccountId" class="form-control">
+                    @foreach (var account in (List<AccountViewModel>)ViewData["accounts"])
+                    {
+                        <option value="@account.Id">@account.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="AccountId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label">Category</label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in (List<CategoryViewModel>)ViewData["categories"])
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label">Type</label>
+                <select asp-for="Type" class="form-control">
+                    @foreach (var type in (List<string>)ViewData["types"])
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label">Amount</label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Short description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Installment" class="control-label">Installment date</label>
+                <input asp-for="Installment" type="date" class="form-control" />
+                <span asp-validation-for="Installment" class="text-danger"></span>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Save
+                </button>
+
+                @if (string.IsNullOrEmpty(ViewBag.ReturnUrl as string))
+                {
+                    <a class="btn btn-light ml-1" asp-action="List">Back</a>
+                }
+                else
+                {
+                    <a class="btn btn-light ml-1" href="@ViewBag.ReturnUrl">Back</a>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+}

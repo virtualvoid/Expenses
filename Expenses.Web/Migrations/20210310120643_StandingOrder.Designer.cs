@@ -3,14 +3,16 @@ using System;
 using Expenses.Web.Business.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Expenses.Web.Migrations
 {
     [DbContext(typeof(ExpensesDbContext))]
-    partial class ExpensesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210310120643_StandingOrder")]
+    partial class StandingOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +90,6 @@ namespace Expenses.Web.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Installment")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<byte>("Type")
                         .HasColumnType("tinyint unsigned");

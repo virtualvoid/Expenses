@@ -12,6 +12,7 @@ namespace Expenses.Web.Business.Data
 
     public DbSet<Transaction> TransactionSet { get; set; }
 
+    public DbSet<StandingOrder> StandingOrderSet { get; set; }
 
     public ExpensesDbContext(DbContextOptions<ExpensesDbContext> dbContextOptions)
        : base(dbContextOptions)

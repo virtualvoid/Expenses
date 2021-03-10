@@ -1,0 +1,84 @@
+﻿@model List<StandingOrderViewModel>
+@{
+    ViewData["Title"] = "Standing orders";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive-md mt-3">
+            <div class="standingorders-list">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th class="d-none d-lg-table-cell">Account</th>
+                            <th>Installment date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-area="" asp-controller="StandingOrder" asp-action="Edit" asp-route-id="@item.Id" class="">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a asp-area="" asp-controller="StandingOrder" asp-action="Proceed" asp-route-id="@item.Id" class="">
+                                        <i class="fa fa-wallet" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    @{
+                                        var type = Enum.Parse<Expenses.Web.Business.Data.TransactionType>(item.Type);
+                                        if (type == Expenses.Web.Business.Data.TransactionType.Debet)
+                                        {
+                                            <text>-</text>
+                                        }
+                                    }
+
+                                    <span>@Math.Round(item.Amount, 2)</span>
+                                </td>
+                                <td>
+                                    @item.Category.Name
+                                </td>
+                                <td class="d-none d-lg-table-cell">
+                                    @item.Account.Name
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.Installment < DateTime.UtcNow)
+                                        {
+                                            <span class="text-red">
+                                                @item.Installment.ToString("dd.MM.yyyy")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            @item.Installment.ToString("dd.MM.yyyy");
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a class="btn btn-light" asp-area="" asp-controller="StandingOrder" asp-action="Edit">
+            <i class="fa fa-plus"></i> Add
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/StandingOrder.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

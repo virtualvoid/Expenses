@@ -5,6 +5,7 @@ namespace Expenses.Web.Business.Mediator
 {
   using Expenses.Web.Business.Mediator.Account;
   using Expenses.Web.Business.Mediator.Categories;
+  using Expenses.Web.Business.Mediator.StandingOrders;
   using Expenses.Web.Business.Mediator.Transactions;
   using Expenses.Web.Business.Mediator.User;
 
@@ -27,6 +28,11 @@ namespace Expenses.Web.Business.Mediator
 
         yield return typeof(TransactionRequestHandler);
         yield return typeof(TransactionEditRequestHandler);
+
+        yield return typeof(StandingOrdersListRequestHandler);
+        yield return typeof(StandingOrderRequestHandler);
+        yield return typeof(StandingOrderEditRequestHandler);
+        yield return typeof(StandingOrderProceedRequestHandler);
       }
     }
   }
