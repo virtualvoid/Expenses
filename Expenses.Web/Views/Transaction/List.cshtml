@@ -108,7 +108,27 @@
         </div>
         <nav aria-label="" class="mt-2">
             <ul class="pagination pagination-sm justify-content-center">
-                @for (var pageIndex = 0; pageIndex < ViewBag.Pages; pageIndex++)
+                @if (ViewBag.Index > 0)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("List", "Transaction", new { page = 0 })" aria-label="">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("List", "Transaction", new { page = ViewBag.Index - 1 })" aria-label="">
+                            <span aria-hidden="true">&larr;</span>
+                        </a>
+                    </li>
+                }
+
+                @{
+                    var paginationSize = 4;
+                    var start = Math.Max(0, ViewBag.Index - 2);
+                    var end = Math.Min(start + paginationSize, ViewBag.Pages - 1);
+                }
+
+                @for (var pageIndex = start; pageIndex <= end; pageIndex++)
                 {
                     if (pageIndex == ViewBag.Index)
                     {
@@ -127,6 +147,20 @@
                             </a>
                         </li>
                     }
+                }
+
+                @if (ViewBag.Index < ViewBag.Pages - 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("List", "Transaction", new { page = ViewBag.Index + 1 })" aria-label="">
+                            <span aria-hidden="true">&rarr;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("List", "Transaction", new { page = ViewBag.Pages -1 })" aria-label="">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
                 }
             </ul>
         </nav>
